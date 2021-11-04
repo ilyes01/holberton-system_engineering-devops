@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# bash script that configures a server to the above requrements
+sed -i -E 's/8080/80/g' /etc/nginx/sites-enabled/default
+sudo /etc/init.d/nginx restart
+rm /var/run/nginx.pid
