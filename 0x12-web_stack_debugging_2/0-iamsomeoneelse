@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# bash script that accepts one argument
+if [[ $# == 1 ]]; then
+    chsh -s /bin/bash "$1"
+    su -c whoami "$1"
+fi
