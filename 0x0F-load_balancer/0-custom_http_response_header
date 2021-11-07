@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# configures
+config_file=/etc/nginx/sites-enabled/default;
+curl -s "https://raw.githubusercontent.com/taiebchaabini/holberton-system_engineering-devops/master/0x0C-web_server/4-not_found_page_404" | sh && sed -i -E "0,/listen \[::]:[0-9]+ .+;/s//& \n\tadd_header X-Served-By $(hostname)\;/" "$config_file";
+sudo /etc/init.d/nginx restart;
+
