@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# Install and Configure 
+sudo apt-get install -y software-properties-common
+sudo add-apt-repository -y ppa:vbernat/haproxy-1.8
+apt-get update -y
+apt-get install -y haproxy
+echo "ENABLED=1" | sudo tee /etc/default/haproxy
+sudo mv haproxy.cfg haproxy.cfg.old
+curl -s "https://raw.githubusercontent.com/taiebchaabini/holberton-system_engineering-devops/master/0x0F-load_balancer/haproxy.cfg" | sudo tee /etc/haproxy/haproxy.cfg && /etc/init.d/haproxy start
+sudo /etc/init.d/haproxy restart
+
