@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-    Python script.
+    Python script that....
 """
 
 import json
