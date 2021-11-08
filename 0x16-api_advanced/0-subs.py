@@ -1,18 +1,19 @@
 #!/usr/bin/python3
-""" function that queries the Reddit API and returns the number of subscribers """
+"""
+subs
+"""
 import requests
-headers = {'user-agent': 'linux:taiebchaabini.tech:v1\
- (by /u/taiebchaabini)'}
+from sys import argv
+"""
+function number
+"""
 
 
 def number_of_subscribers(subreddit):
-    """ returns the number of subscribers """
-    url = 'https://api.reddit.com/r/' + subreddit + '/about'
-    response = requests.get(url,
-                            headers=headers)
+    url = 'https://www.reddit.com/r/{}/about.json'.format(subreddit)
     try:
-        data = response.json()
-        data = data['data']['subscribers']
-    except:
-        data = 0
-    return data
+        req = requests.get(url, headers={'User-agent': 'fedi'})
+        subs = req.json()
+        return subs.get('data').get('subscribers')
+    except AttributeError:
+        return 0
