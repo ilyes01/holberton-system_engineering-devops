@@ -1,6 +1,8 @@
-# Install
-package { 'puppet-lint':
-  ensure   => '2.1.1',
-  provider =>  'gem'
-}y
-
+# Create a new file Holberton in tmp directory
+file { '/tmp/holberton':
+  ensure  => present,
+  owner   => 'www-data',
+  group   => 'www-data',
+  mode    => '0744',
+  content => 'I love Puppet',
+}
