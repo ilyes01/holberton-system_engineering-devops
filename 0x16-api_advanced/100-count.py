@@ -5,14 +5,14 @@
 """
 import re
 import requests
-headers = {'user-agent': 'linux:taiebchaabini.tech:v1\
- (by /u/taiebchaabini)'}
+headers = {'user-agent': 'ubuntu:hbtn:v1.0\
+ (by /u/Brandixitor)'}
 
 
 def count_words(subreddit, word_list, after='', occurs={}):
     """
         Recursive function that queries the Reddit API, parses the title of all
-        hot articles, and prints a sorted count of given keywords.
+        hot articles, and prints a sorted count of given keyword.
     """
     url = 'https://api.reddit.com/r/' + subreddit + '?limit=100&after=' + after
     response = requests.get(url, headers=headers)
