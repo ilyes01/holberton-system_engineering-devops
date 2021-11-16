@@ -1,57 +1,50 @@
 #!/usr/bin/python3
-'''
- Recursive function that queries the Reddit API, parses the title of all hot
- articles, and prints a sorted count of given keywords
- '''
-import pprint
-import re
+""" emchyyyy plzzzzzzzzzzzzzzzz """
 import requests
 
-url = 'http://reddit.com/r/{}/hot.json'
 
+def count_words(subreedit, word_list, after="", d={}, check=0):
+    """Returns top 10 posts """
+    if check == 0:
+        for j in range(len(word_list)):
+            word_list[j] = word_list[j].lower()
+    d = dict.fromkeys(word_list)
+    url = 'https://www.reddit.com'
+    query_string = 'r/{}/hot.json'.format(subreedit)
+    s1 = "Mozilla/5.0 (Linux; Android 11; Pixel 2;"
+    s2 = "DuplexWeb-Google/1.0) AppleWebKit/537.36"
+    s3 = "(KHTML, like Gecko) Chrome/86.0.4240.193 Mobile Safari/537.36"
+    agent = s1 + s2 + s3
+    headers = {'User-agent': agent}
+    params = {'after': after}
+    r = requests.get(
+        '{}/{}'.format(url, query_string),
+        allow_redirects=False,
+        headers=headers,
+        params=params
+        )
+    if r.status_code == 403 or r.status_code == 404:
+        return
+    data = r.json()
+    after = data.get('data').get('after')
+    posts = data.get('data').get('children')
+    for post in posts:
+        title = post.get('data').get('title')
+        title_list = title.split(' ')
+        for j in range(len(title_list)):
+            title_list[j] = title_list[j].lower()
+        # (title_list)
+        # (word_list)
+        for word in title_list:
+            if word in word_list:
+                if d[word] is None:
+                    d[word] = 1
+                else:
+                    d[word] += 1
+    if after:
+        return count_words(subreedit, word_list, after, d, 1)
+    print(d)
+    return d
 
-def count_words(subreddit, word_list, hot_list=[], after=None):
-'''
-Recursive function that queries the Reddit API, parses the title of all
-hot articles, and prints a sorted count of given keywords
-'''
-    header = {'User-agent': 'tabbykatz-app3'}
-    params = {'limit': 100}
-    if isinstance(after, str):
-        if after != "DONE":
-            params['after'] = after
-        else:
-            return print_it(word_list, hot_list)
-
-    response = requests.get(url.format(subreddit),
-                            headers=header, params=params)
-    if response.status_code != 200:
-        return None
-    data = response.json().get('data', {})
-    after = data.get('after', 'DONE')
-    if not after:
-        after = "DONE"
-    hot_list = hot_list + [item.get('data', {}).get('title')
-                           for item in data.get('children', [])]
-    return count_words(subreddit, word_list, hot_list, after)
-
-
-def print_it(word_list, hot_list):
-    ''' we are printing this time '''
-    # print(hot_list)
-    # print(word_list)
-    count = {}
-    for word in word_list:
-        count[word] = 0
-    for title in hot_list:
-        for word in word_list:
-            count[word] = count[word] +\
-             len(re.findall(r'(?:^| ){}(?:$| )'.format(word), title, re.I))
-            # findall(thing, where, ignore case)
-
-    count = {k: v for k, v in count.items() if v > 0}
-    words = sorted(list(count.keys()))
-    for word in sorted(words,
-                       reverse=True, key=lambda k: count[k]):
-        # sorted( thing, descending, by count)
-        print("{}: {}".format(word, count[word]))
+if __name__ == '__main___':
+    count_words(subreedit)
