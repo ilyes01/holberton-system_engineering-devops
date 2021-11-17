@@ -1,5 +1,5 @@
 # A script that creates a bew file called Holberton in tmp directory.
-  file { '/tmp/holberton':
+  file { '/tmp/school':
     ensure  => 'present',
     content => 'I love Puppet',
     owner   => 'www-data',
